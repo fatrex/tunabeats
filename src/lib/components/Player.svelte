@@ -52,13 +52,16 @@
         {/if}
       </div>
       <div class="buttons">
-        {#if size !== 'normal'}
+        <div class="prev-button">
           <PrevIcon />
-        {/if}
-        <PlayIcon />
-        {#if size !== 'normal'}
+        </div>
+        <div class="play-button">
+          <PlayIcon />
+        </div>
+
+        <div class="next-button">
           <NextIcon />
-        {/if}
+        </div>
       </div>
     </div>
     <div class="progress">
@@ -75,14 +78,15 @@
       @apply flex flex-row h-[75px];
 
       .cover {
-        @apply w-3/12;
+        @apply w-3/12 h-full;
         @apply flex items-center justify-center;
-        @apply h-full;
+        @apply sm:w-2/12;
       }
 
       .info {
         @apply w-7/12 h-full;
         @apply flex flex-col justify-center text-white text-sm;
+        @apply sm:w-5/12;
 
         .track {
           @apply font-semibold;
@@ -90,7 +94,20 @@
       }
 
       .buttons {
-        @apply w-auto flex items-center justify-between text-white text-4xl h-full;
+        @apply w-2/12 h-full;
+        @apply flex items-center justify-between text-white text-4xl;
+        @apply sm:gap-x-6;
+        @apply sm:w-5/12;
+
+        .prev-button {
+          @apply hidden;
+          @apply sm:block;
+        }
+
+        .next-button {
+          @apply hidden;
+          @apply sm:block;
+        }
       }
     }
 
@@ -102,16 +119,27 @@
       @apply h-full;
       .media {
         @apply flex flex-col h-[90%];
+        @apply sm:flex-row;
         .cover {
-          @apply w-full h-1/3 flex-grow h-full;
+          @apply w-full flex-grow h-full;
+          @apply sm:w-3/12;
         }
         .info {
-          @apply w-full h-60 flex flex-row justify-between items-center;
+          @apply w-full h-60 flex flex-row justify-between items-center text-base;
+          @apply sm:w-5/12 sm:px-5 sm:pr-14 sm:h-full;
           .fav {
             @apply text-4xl;
           }
         }
-        .button {
+        .buttons {
+          @apply w-full flex items-center;
+          @apply sm:w-4/12;
+          .prev-button {
+            @apply block;
+          }
+          .next-button {
+            @apply block;
+          }
         }
       }
     }
