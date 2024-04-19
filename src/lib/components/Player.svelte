@@ -1,11 +1,35 @@
 <script lang="ts">
-  import { Avatar, RangeSlider } from '@skeletonlabs/skeleton';
+  import { Avatar, RangeSlider, getDrawerStore } from '@skeletonlabs/skeleton';
   import { isPlaying } from '$lib/stores/player';
   import PlayIcon from '~icons/iconamoon/player-play-duotone';
+  import NextIcon from '~icons/iconamoon/player-next-duotone';
+  import PrevIcon from '~icons/iconamoon/player-previous-duotone';
+  import ArrowUpIcon from '~icons/iconamoon/arrow-up-2-fill';
+  import HearthIcon from '~icons/iconamoon/heart-duotone';
+
+  export let size: 'normal' | 'mobile-player' = 'normal';
+
+  const drawerStore = getDrawerStore();
+
+  const openMobilePlayer = () => {
+    drawerStore.open({
+      id: 'mobile-player',
+      position: 'bottom',
+      bgDrawer: 'bg-secondary-500',
+      height: 'h-[90%]',
+    });
+  };
 </script>
 
 {#if $isPlaying}
-  <div class="mini-player">
+  <div class="player" class:mobile-player={size === 'mobile-player'}>
+    {#if size !== 'mobile-player'}
+      <div class="absolute -top-12 text-secondary-500 text-7xl w-full flex flex-row justify-center">
+        <button on:click={() => openMobilePlayer()}>
+          <ArrowUpIcon />
+        </button>
+      </div>
+    {/if}
     <div class="media">
       <div class="cover">
         <Avatar
@@ -13,14 +37,28 @@
           rounded="rounded-2xl"
           shadow="shadow-md"
           border="border"
+          width={size === 'mobile-player' ? 'w-auto' : 'w-16'}
         />
       </div>
-      <div class="title">
-        <p class="artist">Twenty One Pilots</p>
-        <p class="track">Overcompensate</p>
+      <div class="info">
+        <div class="">
+          <p class="artist">Twenty One Pilots</p>
+          <p class="track">Overcompensate</p>
+        </div>
+        {#if size !== 'normal'}
+          <div class="fav">
+            <HearthIcon />
+          </div>
+        {/if}
       </div>
       <div class="buttons">
+        {#if size !== 'normal'}
+          <PrevIcon />
+        {/if}
         <PlayIcon />
+        {#if size !== 'normal'}
+          <NextIcon />
+        {/if}
       </div>
     </div>
     <div class="progress">
@@ -30,8 +68,8 @@
 {/if}
 
 <style lang="postcss">
-  .mini-player {
-    @apply h-28 bg-secondary-500 px-2 py-3;
+  .player {
+    @apply h-28 bg-secondary-500 px-2 py-3 relative w-full;
 
     .media {
       @apply flex flex-row h-[75px];
@@ -39,11 +77,10 @@
       .cover {
         @apply w-3/12;
         @apply flex items-center justify-center;
-        @apply bg-no-repeat bg-cover bg-center;
         @apply h-full;
       }
 
-      .title {
+      .info {
         @apply w-7/12 h-full;
         @apply flex flex-col justify-center text-white text-sm;
 
@@ -53,12 +90,30 @@
       }
 
       .buttons {
-        @apply w-auto flex items-center text-white text-4xl h-full;
+        @apply w-auto flex items-center justify-between text-white text-4xl h-full;
       }
     }
 
     .progress {
       @apply h-[25px] w-full;
+    }
+
+    &.mobile-player {
+      @apply h-full;
+      .media {
+        @apply flex flex-col h-[90%];
+        .cover {
+          @apply w-full h-1/3 flex-grow h-full;
+        }
+        .info {
+          @apply w-full h-60 flex flex-row justify-between items-center;
+          .fav {
+            @apply text-4xl;
+          }
+        }
+        .button {
+        }
+      }
     }
   }
 </style>

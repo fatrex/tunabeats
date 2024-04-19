@@ -1,8 +1,18 @@
 <script>
   import Player from '$lib/components/Player.svelte';
+  import MobilePlayer from '$lib/drawers/MobilePlayer.svelte';
   import '../app.css';
-  import { AppShell } from '@skeletonlabs/skeleton';
+  import { AppShell, initializeStores, Drawer, getDrawerStore } from '@skeletonlabs/skeleton';
+
+  initializeStores();
+  const drawerStore = getDrawerStore();
 </script>
+
+<Drawer>
+  {#if $drawerStore.id === 'mobile-player'}
+    <MobilePlayer />
+  {/if}
+</Drawer>
 
 <AppShell>
   <svelte:fragment slot="sidebarLeft">
