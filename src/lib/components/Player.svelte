@@ -24,12 +24,13 @@
 {#if $isPlaying}
   <div class="player" class:mobile-player={size === 'mobile-player'}>
     {#if size !== 'mobile-player'}
-      <div class="absolute -top-12 text-secondary-500 text-7xl w-full flex flex-row justify-center">
+      <div class="expand-player">
         <button on:click={() => openMobilePlayer()}>
           <ArrowUpIcon />
         </button>
       </div>
     {/if}
+
     <div class="media">
       <div class="cover">
         <Avatar
@@ -63,30 +64,45 @@
           <NextIcon />
         </div>
       </div>
-    </div>
-    <div class="progress">
-      <RangeSlider name="seekbar" accent="accent-surface-500" />
+      <div class="progress">
+        <RangeSlider name="seekbar" accent="accent-surface-500">
+          <div class="timings">
+            <div class="current">00:00</div>
+            <div class="total">00:00</div>
+          </div>
+        </RangeSlider>
+      </div>
     </div>
   </div>
 {/if}
 
 <style lang="postcss">
   .player {
-    @apply h-28 bg-secondary-500 px-2 py-3 relative w-full;
+    @apply h-28 bg-secondary-500 px-2 py-3 relative w-full flex-wrap flex flex-row;
+
+    .expand-player {
+      @apply absolute -top-12 text-secondary-500 text-7xl w-full flex flex-row justify-center;
+      @apply lg:hidden;
+    }
 
     .media {
-      @apply flex flex-row h-[75px];
+      @apply flex flex-row h-[75px] flex-wrap;
+      @apply sm:w-full;
+      @apply lg:flex-nowrap;
+      @apply lg:h-full lg:space-x-10;
 
       .cover {
         @apply w-3/12 h-full;
         @apply flex items-center justify-center;
         @apply sm:w-2/12;
+        @apply lg:w-1/12;
       }
 
       .info {
         @apply w-7/12 h-full;
         @apply flex flex-col justify-center text-white text-sm;
         @apply sm:w-5/12;
+        @apply lg:w-2/12;
 
         .track {
           @apply font-semibold;
@@ -98,6 +114,7 @@
         @apply flex items-center justify-between text-white text-4xl;
         @apply sm:gap-x-6;
         @apply sm:w-5/12;
+        @apply lg:order-last lg:text-2xl lg:w-3/12 lg:justify-around;
 
         .prev-button {
           @apply hidden;
@@ -109,17 +126,22 @@
           @apply sm:block;
         }
       }
-    }
 
-    .progress {
-      @apply h-[25px] w-full;
+      .progress {
+        @apply h-[25px] w-full;
+        @apply lg:h-full lg:flex lg:flex-col lg:justify-center lg:w-6/12;
+        .timings {
+          @apply hidden justify-between text-sm text-white;
+          @apply lg:flex lg:flex-row;
+        }
+      }
     }
 
     &.mobile-player {
       @apply h-full;
       .media {
-        @apply flex flex-col h-[90%];
-        @apply sm:flex-row;
+        @apply flex flex-col h-[90%] flex-nowrap;
+        @apply sm:flex-row sm:flex-wrap;
         .cover {
           @apply w-full flex-grow h-full;
           @apply sm:w-3/12;
