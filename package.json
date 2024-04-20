@@ -19,6 +19,7 @@
     "format": "prettier --write ."
   },
   "devDependencies": {
+    "@iconify/json": "^2.2.202",
     "@playwright/test": "^1.28.1",
     "@skeletonlabs/skeleton": "^2.9.1",
     "@skeletonlabs/tw-plugin": "^0.4.0",
@@ -41,7 +42,11 @@
     "tailwindcss": "^3.4.3",
     "tslib": "^2.4.1",
     "typescript": "^5.0.0",
+    "unplugin-icons": "^0.18.5",
     "vite": "^5.0.3"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "remove": "^0.1.5"
+  }
 }
